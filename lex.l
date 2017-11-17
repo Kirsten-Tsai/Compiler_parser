@@ -89,18 +89,9 @@ int line_no = 1;
 #define  MAX 256
 char buf[MAX];
 char strContent[MAX];
-int opt = 1; /* token option */
-int judge = 0;/*means not minus*/
-int judge_s = 0;
+int opt = 1;    //token
+int judge = 0;  //0 -> sign
 
-//paste Crtl+V
-//and
-
-  // judge == 1  -> means     minus
-  // judge == 0  -> means not minus
-  //find the judge and judge_s meaning and logic
-  //then figure out what are the rules 00
-  //compare two codes and another view
 %}
 
 A [aA]
