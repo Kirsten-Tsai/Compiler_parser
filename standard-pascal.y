@@ -39,7 +39,7 @@
 
 %%
 file : program |
-	   { fprintf(stderr, "Use rule 1.\n");}	
+	   { fprintf(stderr, "Reduction: file -> program\n");}	
  ;
 
 // prog    ::= PROGRAM id ( identifier_list ) ;
@@ -50,7 +50,7 @@ file : program |
 
 program : PROGRAM ID LPAREN identifier_list RPAREN SEMICOLON 
 		  declarations subprogram_declarations compound_statement
-		  DOT { fprintf(stderr, "Use rule 2.\n");}
+		  DOT { fprintf(stderr, "PROGRAM id ( identifier_list ) ; declarations subprogram_declarations compound_statement .\n");}
  ;
   
 
@@ -60,9 +60,9 @@ program : PROGRAM ID LPAREN identifier_list RPAREN SEMICOLON
 
 
 identifier_list : identifier_list COMMA ID
-				 { fprintf(stderr, "Use rule 4.\n");}
+				 { fprintf(stderr, "Reduction: identifier_list -> identifier_list , id\n");}
 				| ID
-				{ fprintf(stderr, "Use rule 5.\n");}
+				{ fprintf(stderr, "Reduction: identifier_list -> id\n");}
  ;
 
 
@@ -71,9 +71,9 @@ identifier_list : identifier_list COMMA ID
  
  
 declarations :  declarations VAR identifier_list COLON type SEMICOLON
-				 { fprintf(stderr, "Use rule 7.\n");}
+				 { fprintf(stderr, "Reduction: declarations -> declarations VAR identifier_list : type ;\n");}
 			  |
-			   { fprintf(stderr, "Use rule 8.\n");}
+			   { fprintf(stderr, "Reduction: declarations -> λ\n");}
  ;
  
 // type ::= standard_type
@@ -81,9 +81,9 @@ declarations :  declarations VAR identifier_list COLON type SEMICOLON
 
 
  type : standard_type
-		 { fprintf(stderr, "Use rule 9.\n");}
+		 { fprintf(stderr, "Reduction: type -> standard_type\n");}
 		|  ARRAY LBRAC NUM DOTDOT NUM RBRAC OF type
-		 { fprintf(stderr, "Use rule 10.\n");}
+		 { fprintf(stderr, "Reduction: type -> ARRAY [ num .. num ] OF type\n");}
  ;
  
 // standard_type ::= INTEGER
@@ -93,21 +93,33 @@ declarations :  declarations VAR identifier_list COLON type SEMICOLON
 
 
 standard_type : INTEGER
-      { fprintf(stderr, "Use rule 11.\n");}
+      { fprintf(stderr, "Reduction: standard_type -> INTEGER\n");}
 	| REAL 
-      { fprintf(stderr, "Use rule 12.\n");}
+      { fprintf(stderr, "Reduction: standard_type -> REAL\n");}
 	| CHARACTER_STRING	  
-	  { fprintf(stderr, "Use rule 13.\n");};
-	
+	  { fprintf(stderr, "Reduction: standard_type -> STRING\n");};
+	  
+
+//constant
+/*
+ constant : INTEGER
+			 { fprintf(stderr, "Use rule 11.\n");}
+			| REAL
+			 { fprintf(stderr, "Use rule 12.\n");}
+			| CHARACTER_STRING
+			 { fprintf(stderr, "Use rule 13.\n");}
+;
+*/ 
+
 
 // subprogram_declarations ::=
 // 	subprogram_declarations subprogram_declaration ;
 // 	| lambda
 
 subprogram_declarations : subprogram_declarations subprogram_declaration SEMICOLON
-						{ fprintf(stderr, "Use rule 20.\n");}
+						{ fprintf(stderr, "Reduction: subprogram_declarations -> subprogram_declarations subprogram_declaration\n");}
 						|
-						{ fprintf(stderr, "Use rule 21.\n");}
+						{ fprintf(stderr, "Reduction: subprogram_declarations -> λ\n");}
 
 ; 
 
@@ -118,7 +130,7 @@ subprogram_declarations : subprogram_declarations subprogram_declaration SEMICOL
 //         compound_statement 
  
 subprogram_declaration : subprogram_head declarations compound_statement
-						{ fprintf(stderr, "Use rule 22.\n");}
+						{ fprintf(stderr, "Reduction: subprogram_declaration -> subprogram_head declarations compound_statement \n");}
  ;
  
 
@@ -126,46 +138,46 @@ subprogram_declaration : subprogram_head declarations compound_statement
 // 	| PROCEDURE id arguments ;
  
 subprogram_head : FUNCTION ID arguments COLON standard_type SEMICOLON
-				{ fprintf(stderr, "Use rule 23.\n");}
+				{ fprintf(stderr, "Reduction: subprogram_head -> FUNCTION id arguments : standard_type ;\n");}
 				| PROCEDURE ID arguments SEMICOLON
-				{ fprintf(stderr, "Use rule 24.\n");}
+				{ fprintf(stderr, "Reduction: subprogram_head -> PROCEDURE id arguments ;\n");}
 ;
  
 // arguments ::= ( parameter_list )
 // 	| lambda 
 arguments : LPAREN parameter_list RPAREN
-			{ fprintf(stderr, "Use rule 25.\n");}
+			{ fprintf(stderr, "Reduction: arguments -> ( parameter_list )\n");}
 			|
-			{ fprintf(stderr, "Use rule 26.\n");}
+			{ fprintf(stderr, "Reduction: arguments -> λ\n");}
 ;
 
 // parameter_list ::= optional_var identifier_list : type
 // 	| optional_var identifier_list : type ; parameter_list
 parameter_list : optional_var identifier_list COLON type			
-				{ fprintf(stderr, "Use rule 27.\n");}
+				{ fprintf(stderr, "Reduction: parameter_list -> optional_var identifier_list : type\n");}
 				| optional_var identifier_list COLON type SEMICOLON parameter_list
-				{ fprintf(stderr, "Use rule 28.\n");}
+				{ fprintf(stderr, "Reduction: parameter_list -> optional_var identifier_list : type ; parameter_list\n");}
 ; 
 
 // optional_var   ::= VAR
 //         | lambda
 
 optional_var :
-				VAR{fprintf(stderr, "Use rule 29.\n");}
-			|		{fprintf(stderr, "Use rule 30\n");}
+				VAR{fprintf(stderr, "Reduction: optional_var -> VAR\n");}
+			|		{fprintf(stderr, "Reduction: optional_var -> λ\n");}
 ;
 
 // compound_statement ::= begin
 // 		       optional_statements
 // 		       end
 compound_statement : PBEGIN optional_statements END			
-				    { fprintf(stderr, "Use rule 31.\n");}
+				    { fprintf(stderr, "Reduction: compound_statement -> begin optional_statements end\n");}
 ;
 
 // optional_statements ::= statement_list
 // 	| lambda
 optional_statements : statement_list
-					{ fprintf(stderr, "Use rule 32.\n");}
+					{ fprintf(stderr, "Reduction: optional_statements -> string_list\n");}
 					// |
 					// { fprintf(stderr, "Use rule 33.\n");}
 ; 
@@ -173,9 +185,9 @@ optional_statements : statement_list
 // statement_list ::= statement
 // 	| statement_list ; statement 
 statement_list : statement
-				{ fprintf(stderr, "Use rule 34.\n");}
+				{ fprintf(stderr, "Reduction: string_list -> statement\n");}
 				| statement_list SEMICOLON statement
-				{ fprintf(stderr, "Use rule 35.\n");}
+				{ fprintf(stderr, "Reduction: string_list -> statement_list ; statement\n");}
 ;
 
 
@@ -187,17 +199,25 @@ statement_list : statement
 // 	| lambda
  
 statement : variable ASSIGNMENT expression 
-			{ fprintf(stderr, "Use rule 36.\n");}
+			{ fprintf(stderr, "Reduction: statement -> variable := expression\n");}
 			| procedure_statement
-			{ fprintf(stderr, "Use rule 37.\n");}
+			{ fprintf(stderr, "Reduction: statement -> procedure_statement\n");}
 			| compound_statement
-			{ fprintf(stderr, "Use rule 38.\n");}
+			{ fprintf(stderr, "Reduction: statement -> compound_statement\n");}
 			| IF expression THEN statement ELSE statement
-			{ fprintf(stderr, "Use rule 39.\n");}
+			{ fprintf(stderr, "Reduction: statement -> IF expression THEN statement ELSE statement\n");}
 			| WHILE expression DO statement
-			{ fprintf(stderr, "Use rule 40.\n");}
+			{ fprintf(stderr, "Reduction: statement -> WHILE expression DO statement\n");}
 			|
-			{ fprintf(stderr, "Use rule 41.\n");}
+			{ fprintf(stderr, "Reduction: statement -> λ\n");}
+			// | WRITELN LPAREN CHARACTER_STRING RPAREN SEMICOLON
+			// { fprintf(stderr, "Use rule 79._PRINT STRING\n");}
+
+
+			// | variable ASSIGNMENT string_list
+			// { fprintf(stderr, "Use rule 00.\n");}
+			// | WRITELN LPAREN string_list RPAREN  
+			// { fprintf(stderr, "Use rule 00.\n");}
 			
 ;
 
@@ -219,66 +239,65 @@ statement : variable ASSIGNMENT expression
 
 // variable ::= id tail
 variable : ID tail
-			{ fprintf(stderr, "Use rule 42.\n");}
+			{ fprintf(stderr, "Reduction: variable -> id tail\n");}
 ;
 
 // tail     ::= [ expression ] tail
 // 	| lambda 
 tail : LBRAC expression RBRAC tail
-	   { fprintf(stderr, "Use rule 43.\n");}
+	   { fprintf(stderr, "Reduction: tail -> [ expression ] tail\n");}
 	  |
-	  { fprintf(stderr, "Use rule 44.\n");}
+	  { fprintf(stderr, "Reduction: tail -> λ\n");}
 ; 
 
 // procedure_statement ::= id
 // 	| id ( expression_list )
 procedure_statement : ID
-					  { fprintf(stderr, "Use rule 45.\n");}
+					  { fprintf(stderr, "Reduction: procedure_statement -> id\n");}
 					| ID LPAREN expression_list RPAREN
-					{ fprintf(stderr, "Use rule 46.\n");}
+					{ fprintf(stderr, "Reduction: procedure_statement -> id ( expression_list )\n");}
 					| WRITELN LPAREN STRING_INPUT RPAREN
-					{ fprintf(stderr, "Use rule 79\n");}
+					{ fprintf(stderr, "Reduction: procedure_statement -> writeln ( string )\n");}
 
 ; 
 
 //added
 STRING_INPUT : CHARACTER_STRING
-				{fprintf(stderr, "Use rule 80.\n" );}
+				{fprintf(stderr, "Reduction: string -> character string\n" );}
 ;
 
 
 // expression_list ::= expression
 // 	| expression_list , expression
 expression_list : expression
-				  { fprintf(stderr, "Use rule 47.\n");}
+				  { fprintf(stderr, "Reduction: expression_list -> expression\n");}
 				| expression_list COMMA expression
-				{ fprintf(stderr, "Use rule 48.\n");}
+				{ fprintf(stderr, "Reduction: expression_list -> expression_list , expression\n");}
 ;
 
 // expression ::= simple_expression
 // 	| simple_expression relop simple_expression
 expression : simple_expression
-			{ fprintf(stderr, "Use rule 49.\n");}
+			{ fprintf(stderr, "Reduction: expression -> simple_expression\n");}
 			| simple_expression relop simple_expression
-			{ fprintf(stderr, "Use rule 50.\n");}
+			{ fprintf(stderr, "Reduction: expression -> simple_expression relop simple_expression\n");}
 ;
 
 // simple_expression ::= term
 // 	| simple_expression addop term
 simple_expression : term
-					{ fprintf(stderr, "Use rule 51.\n");}
+					{ fprintf(stderr, "Reduction: simple_expression -> term\n");}
 					| simple_expression addop term
-					{ fprintf(stderr, "Use rule 52.\n");}
+					{ fprintf(stderr, "Reduction: simple_expression -> simple_expression addop term\n");}
 ;
 		
 // term ::= factor
 // 	| term mulop factor
 term : factor
-	   { fprintf(stderr, "Use rule 53.\n");}
+	   { fprintf(stderr, "Reduction: term -> factor\n");}
 	   | term mulop factor
-	   { fprintf(stderr, "Use rule 54.\n");}
+	   { fprintf(stderr, "Reduction: term ->　term mulop factor\n");}
 ;
-
 
 // factor ::= id tail
 // 	| id ( expression_list )
@@ -286,25 +305,23 @@ term : factor
 // 	| ( expression )
 // 	| not factor
 factor : ID tail
-		{ fprintf(stderr, "Use rule 55.\n");}
+		{ fprintf(stderr, "Reduction: factor -> id tail\n");}
 		| ID LPAREN expression_list RPAREN
-		{ fprintf(stderr, "Use rule 56.\n");}
-				// | WRITELN LPAREN expression_list RPAREN
-				// { fprintf(stderr, "Use rule 79\n");}
+		{ fprintf(stderr, "Reduction: factor -> id ( expression_list )\n");}
 		| NUM
-		{ fprintf(stderr, "Use rule 57.\n");}
+		{ fprintf(stderr, "Reduction: factor -> num\n");}
 		| DIGSEQ
-		{ fprintf(stderr, "Use rule 57.\n");}
+		{ fprintf(stderr, "Reduction: factor -> realnumber\n");}
 		| SIGN DIGSEQ
-		{ fprintf(stderr, "Use rule 57.\n");}
+		{ fprintf(stderr, "Reduction: factor -> negative realnumber\n");}
 		| SIGN NUM
-		{ fprintf(stderr, "Use rule 57.\n");} //new rule added.!!
+		{ fprintf(stderr, "Reduction: factor -> negative num\n");} //new rule added.!!
 		| LPAREN expression RPAREN
-		{ fprintf(stderr, "Use rule 58.\n");}
+		{ fprintf(stderr, "Reduction: factor -> ( expression )\n");}
 		| NOT factor
-		{ fprintf(stderr, "Use rule 59.\n");}
+		{ fprintf(stderr, "Reduction: factor -> not factor\n");}
 		| CHARACTER_STRING tail
-		{ fprintf(stderr, "Use rule 80.\n");}
+		{ fprintf(stderr, "Reduction: factor -> string tail\n");}
 ;
 
 //DELETE
@@ -316,16 +333,16 @@ factor : ID tail
 		 
 //addop ::= + | -
 addop: PLUS
-	   { fprintf(stderr, "Use rule 60.\n");}
+	   { fprintf(stderr, "Reduction: addop -> +\n");}
 	  | MINUS
-	  { fprintf(stderr, "Use rule 61.\n");}
+	  { fprintf(stderr, "Reduction: addop -> -\n");}
  ;
 
 //mulop ::= * | /
 mulop : STAR
-	   { fprintf(stderr, "Use rule 62.\n");}
+	   { fprintf(stderr, "Reduction: mulop -> *\n");}
 	   | DIV
-	   { fprintf(stderr, "Use rule 63.\n");}
+	   { fprintf(stderr, "Reduction: mulop -> /\n");}
  ;
 
 // relop ::= <
@@ -335,17 +352,17 @@ mulop : STAR
 // 	| >=
 // 	| !=
 relop : LT		
-		{ fprintf(stderr, "Use rule 64.\n");}
+		{ fprintf(stderr, "Reduction: relop -> <\n");}
 		| GT
-		{ fprintf(stderr, "Use rule 65.\n");}
+		{ fprintf(stderr, "Reduction: relop -> >\n");}
 		| EQUAL
-		{ fprintf(stderr, "Use rule 66.\n");}
+		{ fprintf(stderr, "Reduction: relop -> =\n");}
 		| LE
-		{ fprintf(stderr, "Use rule 67.\n");}
+		{ fprintf(stderr, "Reduction: relop -> <=\n");}
 		| GE
-		{ fprintf(stderr, "Use rule 68.\n");}
+		{ fprintf(stderr, "Reduction: relop -> >=\n");}
 		| NOTEQUAL
-		{ fprintf(stderr, "Use rule 69.\n");}
+		{ fprintf(stderr, "Reduction: relop -> !=\n");}
  ;
 
 
