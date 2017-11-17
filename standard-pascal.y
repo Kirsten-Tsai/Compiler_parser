@@ -38,7 +38,7 @@
 %token TO TYPE UNTIL UPARROW VAR WHILE WITH SIGN STRING WRITELN DU UNLEGAL LEGAL
 
 %%
-file : program
+file : program |
 	   { fprintf(stderr, "Use rule 1.\n");}	
  ;
 
@@ -210,9 +210,31 @@ statement : variable ASSIGNMENT expression
 			{ fprintf(stderr, "Use rule 40.\n");}
 			|
 			{ fprintf(stderr, "Use rule 41.\n");}
+			// | WRITELN LPAREN CHARACTER_STRING RPAREN SEMICOLON
+			// { fprintf(stderr, "Use rule 79._PRINT STRING\n");}
+
+
+			// | variable ASSIGNMENT string_list
+			// { fprintf(stderr, "Use rule 00.\n");}
+			// | WRITELN LPAREN string_list RPAREN  
+			// { fprintf(stderr, "Use rule 00.\n");}
 			
 ;
 
+ 
+// string_list : term_list
+// 		{ fprintf(stderr, "Use rule 00.\n");}
+// ;	
+
+
+// term_list :
+// 		LEGAL term_list
+// 		{ fprintf(stderr, "Use rule 00.\n");}
+// 		|UNLEGAL term_list
+// 		{ fprintf(stderr, "Use rule 00.\n");}
+// 		|
+// 		{ fprintf(stderr, "Use rule 00.\n");}
+// ;
 
 
 // variable ::= id tail
@@ -234,7 +256,16 @@ procedure_statement : ID
 					  { fprintf(stderr, "Use rule 45.\n");}
 					| ID LPAREN expression_list RPAREN
 					{ fprintf(stderr, "Use rule 46.\n");}
+					| WRITELN LPAREN STRING_INPUT RPAREN
+					{ fprintf(stderr, "Use rule 79\n");}
+
 ; 
+
+//added
+STRING_INPUT : CHARACTER_STRING
+				{fprintf(stderr, "Use rule 80.\n" );}
+;
+
 
 // expression_list ::= expression
 // 	| expression_list , expression
@@ -277,13 +308,30 @@ factor : ID tail
 		{ fprintf(stderr, "Use rule 55.\n");}
 		| ID LPAREN expression_list RPAREN
 		{ fprintf(stderr, "Use rule 56.\n");}
+				// | WRITELN LPAREN expression_list RPAREN
+				// { fprintf(stderr, "Use rule 79\n");}
 		| NUM
 		{ fprintf(stderr, "Use rule 57.\n");}
+		| DIGSEQ
+		{ fprintf(stderr, "Use rule 57.\n");}
+		| SIGN DIGSEQ
+		{ fprintf(stderr, "Use rule 57.\n");}
+		| SIGN NUM
+		{ fprintf(stderr, "Use rule 57.\n");} //new rule added.!!
 		| LPAREN expression RPAREN
 		{ fprintf(stderr, "Use rule 58.\n");}
 		| NOT factor
 		{ fprintf(stderr, "Use rule 59.\n");}
+		| CHARACTER_STRING tail
+		{ fprintf(stderr, "Use rule 80.\n");}
 ;
+
+//DELETE
+// digseq : DIGSEQ
+// 		 { fprintf(stderr, "Use rule 11.\n");}
+// 		 |SIGN DIGSEQ
+// 		  { fprintf(stderr, "Use rule 11.\n");}
+// ;
 		 
 //addop ::= + | -
 addop: PLUS
@@ -332,7 +380,7 @@ relop : LT
     }
     
     fprintf(stderr, "call yyparse\n");
-    
+
     res = yyparse();
     fprintf(stderr, "after call yyparse, res = %d.\n", res);
     
