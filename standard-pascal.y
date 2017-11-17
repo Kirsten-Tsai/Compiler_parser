@@ -98,19 +98,7 @@ standard_type : INTEGER
       { fprintf(stderr, "Use rule 12.\n");}
 	| CHARACTER_STRING	  
 	  { fprintf(stderr, "Use rule 13.\n");};
-	  
-
-//constant
-/*
- constant : INTEGER
-			 { fprintf(stderr, "Use rule 11.\n");}
-			| REAL
-			 { fprintf(stderr, "Use rule 12.\n");}
-			| CHARACTER_STRING
-			 { fprintf(stderr, "Use rule 13.\n");}
-;
-*/ 
-
+	
 
 // subprogram_declarations ::=
 // 	subprogram_declarations subprogram_declaration ;
@@ -210,14 +198,6 @@ statement : variable ASSIGNMENT expression
 			{ fprintf(stderr, "Use rule 40.\n");}
 			|
 			{ fprintf(stderr, "Use rule 41.\n");}
-			// | WRITELN LPAREN CHARACTER_STRING RPAREN SEMICOLON
-			// { fprintf(stderr, "Use rule 79._PRINT STRING\n");}
-
-
-			// | variable ASSIGNMENT string_list
-			// { fprintf(stderr, "Use rule 00.\n");}
-			// | WRITELN LPAREN string_list RPAREN  
-			// { fprintf(stderr, "Use rule 00.\n");}
 			
 ;
 
@@ -298,6 +278,7 @@ term : factor
 	   | term mulop factor
 	   { fprintf(stderr, "Use rule 54.\n");}
 ;
+
 
 // factor ::= id tail
 // 	| id ( expression_list )
