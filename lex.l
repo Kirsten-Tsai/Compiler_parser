@@ -470,7 +470,6 @@ writeln|WRITELN {
 	fprintf(stderr, "eol...%d\n", line_no);
     line_no++; 
 	judge = 0; //following: sign
-	judge_s = 0;
   }
   
 [ \t\f]    ;
