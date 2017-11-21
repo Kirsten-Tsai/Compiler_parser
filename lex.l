@@ -89,9 +89,18 @@ int line_no = 1;
 #define  MAX 256
 char buf[MAX];
 char strContent[MAX];
-int opt = 1;    //token
-int judge = 0;  //0 -> sign
+int opt = 1; /* token option */
+int judge = 0;/*means not minus*/
+int judge_s = 0;
 
+//paste Crtl+V
+//and
+
+  // judge == 1  -> means     minus
+  // judge == 0  -> means not minus
+  //find the judge and judge_s meaning and logic
+  //then figure out what are the rules 00
+  //compare two codes and another view
 %}
 
 A [aA]
@@ -142,308 +151,327 @@ legalstring ([a-zA-Z0-9]|{space}|{ILLEGAL}|","|"("|")"|":"|";"|"."|"["|"]"|"<"|"
 %%
 
 and|AND {
-   fprintf(stderr, "and...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(AND);
 } 
 array|ARRAY {
-    fprintf(stderr, "array...at line: %d.  %s\n", line_no,yytext);
+    fprintf(stderr, "Shift: %s\n",yytext);
     return(ARRAY);
 }  
 case|CASE   {
-   fprintf(stderr, "case...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(CASE);
 } 
 const|CONST   {
-   fprintf(stderr, "const...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(CONST);
 } 
 div|DIV   {
-   fprintf(stderr, "div...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DIV);
 } 
 do|DO    {
-   fprintf(stderr, "do...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DO);
 } 
 downto|DOWNTO {
-   fprintf(stderr, "downto...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DOWNTO);
 } 
 else|ELSE   {
-   fprintf(stderr, "else...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(ELSE);
 } 
 end|END   {
-   fprintf(stderr, "end...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(END);
 } 
 for|FOR  {
-   fprintf(stderr, "for...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
     return(FOR);
 } 
 function|FUNCTION {
-   fprintf(stderr, "function...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(FUNCTION);
 } 
 if|IF    {
-   fprintf(stderr, "if...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(IF);
 } 
 mod|MOD  {
-   fprintf(stderr, "mod...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(MOD);
 } 
 nil|NIL   {
-   fprintf(stderr, "nil...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(NIL);
 } 
 not|NOT   {
-   fprintf(stderr, "not...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(NOT);
 } 
 of|OF  {
-   fprintf(stderr, "of...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(OF);
 } 
 or|OR    {
-   fprintf(stderr, "or...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(OR);
 } 
 begin|BEGIN   {
-   fprintf(stderr, "begin...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(PBEGIN);
 } 
 procedure|PROCEDURE {
-   fprintf(stderr, "procedure...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(PROCEDURE);
 } 
 program|PROGRAM  {
-   fprintf(stderr, "program...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(PROGRAM);
 } 
 record|RECORD  {
-   fprintf(stderr, "record...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(RECORD);
 } 
 repeat|REPEAT  {
-   fprintf(stderr, "repeat...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(REPEAT);
 } 
 then|THEN  {
-   fprintf(stderr, "then...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(THEN);
 } 
 to|TO   {
-   fprintf(stderr, "to...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
     return(TO);
 } 
 type|TYPE  {
-   fprintf(stderr, "type...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
     return(TYPE);
 } 
 until|UNTIL   {
-   fprintf(stderr, "until...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(UNTIL);
 } 
 var|VAR   {
-   fprintf(stderr, "var...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
   return(VAR);
 } 
 while|WHILE   {
-   fprintf(stderr, "while...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(WHILE);
 }
 
 integer|INTEGER {
-        fprintf(stderr, "integer...at line: %d.  %s\n", line_no,yytext);
+        fprintf(stderr, "Shift: %s\n",yytext);
         return(INTEGER);
-	}
-	
+  }
+  
 real|REAL {
-        fprintf(stderr, "real...at line: %d.  %s\n", line_no,yytext);
+        fprintf(stderr, "Shift: %s\n",yytext);
         return(REAL);
-	}
-	
+  }
+  
 writeln|WRITELN {
-        fprintf(stderr, "writeln...at line: %d.  %s\n", line_no,yytext);
+        fprintf(stderr, "Shift: %s\n",yytext);
         return(WRITELN);
-	}
+  }
 
 
 
 
 [A-Za-z][A-Za-z]* {
-	
+  
   judge = 1; // fowllowing: minus
-	fprintf(stderr, "id...%d.%s.\n", line_no,yytext);
+  fprintf(stderr, "Shift: %s.\n",yytext);
   return(ID);
 
   }
 
 
 ":="  {
-	judge = 0; //following: - sign
-   fprintf(stderr, "assignment...at line: %d.  %s\n", line_no,yytext);
+  judge = 0; //following: - sign
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(ASSIGNMENT);
 }  
 '({NQUOTE}|'')+'  {
-   fprintf(stderr, "character string...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(CHARACTER_STRING);
 } 
 ":"    {
-   fprintf(stderr, "colon...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(COLON);
 } 
-","    {	
+","    {  
    
-   fprintf(stderr, "comma...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(COMMA);
 } 
 [0-9]+  {
-		judge = 1;   //following: minus
-		fprintf(stderr, "num...at line: %d.  %s\n", line_no,yytext);
-		return(NUM);
-		
-	
+    judge = 1;   //following: minus
+    fprintf(stderr, "Shift: %s\n",yytext);
+    return(NUM);
+    
+  
  } 
  [0-9]+"."[0-9]+   {
-	judge = 1;   //following:minus
-   fprintf(stderr, "digseq...at line: %d.  %s\n", line_no,yytext);
+  judge = 1;   //following:minus
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DIGSEQ);
 } 
 
 "."    {
-   fprintf(stderr, "dot...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DOT);
 } 
 ".."    {
-   fprintf(stderr, "dotdot...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DOTDOT);
 } 
 "="     {
-   fprintf(stderr, "equal...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(EQUAL);
 } 
 ">="    {
-   fprintf(stderr, "ge...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(GE);
 } 
 ">"   {
-   fprintf(stderr, "gt...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(GT);
 } 
 "["    {
-   fprintf(stderr, "lbrac...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(LBRAC);
 } 
 "<="   {
-   fprintf(stderr, "le...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(LE);
 } 
 "("    {
   judge = 0; //following: sign
-   fprintf(stderr, "lparen...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(LPAREN);
 } 
 "<"    {
-   fprintf(stderr, "lt...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(LT);
 } 
 "-"   {
-	if(judge == 1){    //minus
-	fprintf(stderr, "minus...at line: %d.  %s\n", line_no,yytext);
+  if(judge == 1){    //minus
+  fprintf(stderr, "Shift: %s\n",yytext);
     return(MINUS);
-	}
-	else{	             //sign
-		fprintf(stderr, "sign...at line: %d.  %s\n", line_no,yytext);
-		return(SIGN);
-	}
-		
-		
+  }
+  else{              //sign
+    fprintf(stderr, "Shift: %s\n",yytext);
+    return(SIGN);
+  }
+    
+    
 } 
 
 "<>" {
-   fprintf(stderr, "notequal...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(NOTEQUAL);
 } 
  "!="   {
-   fprintf(stderr, "notequal...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(NOTEQUAL);
 } 
 "+"    {
-   fprintf(stderr, "plus...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(PLUS);
 } 
-"]"    {	
-   fprintf(stderr, "rbrac...at line: %d.  %s\n", line_no,yytext);
+"]"    {  
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(RBRAC);
 } 
 
 [0-9]+"."[0-9]+[eE] {
-   fprintf(stderr, "otherrealnumber...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
     return(OTHERREALNUMBER);
 } 
 
 ")"    {
-	judge = 0; //following: sign
-   fprintf(stderr, "rparen...at line: %d.  %s\n", line_no,yytext);
+  judge = 0; //following: sign
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(RPAREN);
 } 
 ";"   {
-   fprintf(stderr, "semicolon...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
     return(SEMICOLON);
 } 
 "*"    {
-   fprintf(stderr, "star...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(STAR);
 } 
 "^"    {
-   fprintf(stderr, "uparrow...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(UPARROW);
 } 
 "/"         {
-   fprintf(stderr, "div...at line: %d.  %s\n", line_no,yytext);
+   fprintf(stderr, "Shift: %s\n",yytext);
    return(DIV);
 }     
 
 [0-9][0-9]* { 
-    fprintf(stderr, "num...%d.%s.\n", line_no,yytext);
+    fprintf(stderr, "Shift: %s.\n",yytext);
     return(NUM);
   } 
   
 
-"//"			{ 
-				  LIST;
-				  BEGIN Comment;
-				}
+"//"      { 
+          LIST;
+          BEGIN Comment;
+        }
 
-<Comment>[^\n]+		{
-				  LIST;
-				}
+<Comment>[^\n]+   {
+          LIST;
+        }
 
-<Comment>"\n"		{
-				  LIST;
-				  if(opt)
-				  	printf("This is C++comment on line %d: %s",  line_no,  buf);
-				  line_no++;
-				  buf[0] = '\0';
-				  BEGIN INITIAL;
-				}
+<Comment>"\n"   {
+          LIST;
+          if(opt)
+            printf("Shift comment: %s",,  buf);
+        ++;
+          buf[0] = '\0';
+          BEGIN INITIAL;
+        }
  
 
-"\""				{ 
-				  
-				  return(DU);
-				}
+"\""        { 
+          //LIST; memset( buf, '\0', MAX );
+          
+          return(DU);
+        
+          //   if(judge_s == 1){
+          // judge_s = 0;
+          // return(DU);
+          // }
+         // else {judge_s = 1;
+         // return(DU);
+         // }
+          
+         // BEGIN STR; 
+        }
 
 
-				
-"\'"				{ 		  
-				  return(DU);
-		}
+        
+"\'"        { 
+          
+          return(DU);
+         //  if(judge_s == 1){
+          // judge_s = 0;
+          // return(DU);
+          // }
+         // else {judge_s = 1;
+         // return(DU);
+         // }
+    }
 
 
-				
+        
 
 
 "(*"   | 
@@ -467,20 +495,21 @@ writeln|WRITELN {
     }
 
 \n { 
-	fprintf(stderr, "eol...%d\n", line_no);
+  fprintf(stderr, "eol...%d\n", line_no);
     line_no++; 
-	judge = 0; //following: sign
+  judge = 0; //following: sign
+  judge_s = 0;
   }
   
 [ \t\f]    ;
 
 \r         ;
 
-	
+  
 .    {
-		fprintf(stderr,"Lexical analyzer error at line %d : %s\n",line_no,yytext);
-		return(UNLEGAL);
-		}
+    fprintf(stderr,"Lexical analyzer error at line %d : %s\n",line_no,yytext);
+    return(UNLEGAL);
+    }
 
 %%
 /*
@@ -490,7 +519,7 @@ int main(int argc, char** argv) {
   for (i = 0; 1==1; i ++) {
     tok = yylex();
     fprintf(stderr, "%3d-th token(type:%d) on line %d : %s\n", i, tok,line_no, yytext);
-	memset( buf, '\0', MAX );
+  memset( buf, '\0', MAX );
   }
   return(0);
 } */
